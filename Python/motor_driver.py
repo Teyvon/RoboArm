@@ -2,7 +2,7 @@
 """
 Created on Tue Dec 06 08:09:47 2016
 
-@author: Teyvon
+@author:  Teyvon Brooks and Mel Boonya-ananta
 
 This module has necessary functions to control motor driver 1
 """
@@ -12,10 +12,12 @@ import math
 import time
 
 def start(motor_num):
-    """This is the initialization method for the first motor driver"""
-    #or
-    """This should happen every startup, it is used to
-    Initialize the board for use with the stepper motors"""
+    """
+    This is the initialization method for the three motor drivers. 
+    This should happen every startup, and allows the stepper motors to be ran by the pyboard.
+    Inputs: motor_num(1-3)
+    Outputs: motor statuses - m1,m2,m3  
+    """
     m1 = 0
     m2 = 0
     m3 = 0

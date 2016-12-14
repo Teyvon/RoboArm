@@ -2,7 +2,10 @@
 """
 Created on Mon Dec 05 14:42:55 2016
 
-@author: drumm
+@author: Teyvon Brooks and Mel Boonya-ananta
+
+This main python script allows runs the modules motor_driver and parse_mod to
+output motor control comands from the pyboard to the motor. 
 """ 
 import pyb
 from pyb import Pin, UART, LED
@@ -23,10 +26,14 @@ def init():
     it allows the board to be initialized for all three motors and LEDs
     powered on for each. If the Blue goes on then all have been initialized
     without any errors.
+    
+    No Inputs
+    No Outputs
     """
-    #initializes global variables    
+    #instantiate global variable    
     global leds
     
+    #
     print ("about to start up motors")
     try:
         state = []    
@@ -57,9 +64,16 @@ def init():
         else:
             print ("motors on:" + str(state))
 
-def main(on = 0, run = 0): #set tracking to null until user says to start
-    # Initializes global variables
+def main(on = 0, run = 0): 
+    """
+    This is the main function to run the controller. When on is set to one it initializes the board
+    by running init(). And when run is set tracking to null until user says to start
+    
+    """
+    #Initializes global variables
     global leds
+    
+    #begin initialization process
     if on == 1:
         init()
         on = 0
@@ -71,9 +85,29 @@ def main(on = 0, run = 0): #set tracking to null until user says to start
     else:
         print ("tell tracking to start")
     
-    if run == 2:
+        if run == 1:
         """
-        Runs an accelerometer in y function, stops on switch press
+        Runs the document parser to read from the csv file, to instantiate the
+        lists of each axes motions with timesteps
+        """
+        try:
+            import parse_mod
+            print ("about to parse")
+            
+        except ImportError:
+            print ("Show me your passport sir?")
+        
+        else:
+            [t,x,y,z] = parse_mod.p()
+            print ("done parsing")  #+ str(x) + str(y) + str(z)
+            print ("all your data are belong to us...Praise the robo-overlords")
+            move_motor(t,x,y,z,mode = 1) # Set the mode for either: 0=sequential,1=multitasking
+            print ("you should have moved")
+            
+        if run == 2:
+        """
+        Runs an accelerometer in y functionality, this loops until stoped by 
+        user pressing the USR switch
         """
         switch = pyb.Switch()
         leds = [pyb.LED(i+1) for i in range(4)]
@@ -89,23 +123,7 @@ def main(on = 0, run = 0): #set tracking to null until user says to start
         print ("that was fun wasn't it?")
         print ("what now...")
         
-    if run == 1:
-        """
-        Runs the document parser to read from the csv file
-        """
-        try:
-            import parse_mod
-            print ("about to parse")
-            
-        except ImportError:
-            print ("Show me your passport sir?")
-        
-        else:
-            [t,x,y,z] = parse_mod.p()
-            print ("done parsing")  #+ str(x) + str(y) + str(z)
-            print ("all your data are belong to us...Praise the robo-overlords")
-            move_motor(t,x,y,z,mode = 1) # Set the mode for either: 0=sequential,1=multitasking
-            print ("you should have moved")
+
                     
 # rawinput for prompts and blocking
 # usb_vcp -> usb.any()

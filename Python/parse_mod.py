@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Oct 25 23:21:55 2016
-Modified on Thu Dec 08 01:15:42 2016
-@author: Teyvon
+Modified on Thu Dec 12 01:15:42 2016
+@author:  Teyvon Brooks and Mel Boonya-ananta
 
-This file will plot the data of a csv file onto a graph
+This file will plot the data of a named csv file into a list of 
+coordinates and coresponding timesteps
 """
 #import all the goodies
 #from matplotlib import pyplot as ppt
@@ -12,6 +13,12 @@ import argparse
 
 
 def p():
+    """
+    This function runs the parser on the designated file to separate x,y,z angles and timesteps. 
+    It also puts all data into corresponding lists for each direction and time.
+    Inputs: None
+    Outputs: [tcoor,xcoor,ycoor,zcoor]
+    """
     #initialize
     tcoor = []
     xcoor = []
